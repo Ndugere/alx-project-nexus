@@ -1,19 +1,25 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 from django.contrib.auth import get_user_model
 from .models import Category, Product
 from .serializers import UserSerializer, CategorySerializer, ProductSerializer
 from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 User = get_user_model()
 
 # ✅ Anyone can view product list and detail
-class ProductListAPIView(generics.ListCreateAPIView):  # Added Create functionality
+
+class ProductListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.select_related('category').all()
     serializer_class = ProductSerializer
     permission_classes = [permissions.AllowAny]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'category__name']
+    filterset_fields = ['category']
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
 
 
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
