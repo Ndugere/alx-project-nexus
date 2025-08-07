@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 
     'rest_framework', 
+     'django_filters',
 
 
     "core_app",
@@ -144,6 +145,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "core_app.CustomUser"
 
 
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -160,5 +163,6 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'user': '100/day',
         'anon': '10/day',
-    }
+    },
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
