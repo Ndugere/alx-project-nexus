@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 
     "core_app",
+    'drf_yasg',
 
 ]
 
