@@ -17,9 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
             'profile_picture_url',
         ]
         read_only_fields = ['id']
-
+        
 
 class CategorySerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+
     class Meta:
         model = Category
         fields = [
@@ -27,8 +29,11 @@ class CategorySerializer(serializers.ModelSerializer):
             'name',
             'slug',
             'image',
+            'created_by',
         ]
-        read_only_fields = ['id']
+        read_only_fields = ['id', 'created_by']
+
+
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -36,6 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), source='category', write_only=True
     )
+    created_by = UserSerializer(read_only=True) 
 
     class Meta:
         model = Product
@@ -48,5 +54,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'image',
             'category',
             'category_id',
+            'created_by', 
         ]
-        read_only_fields = ['id', 'slug']
+        read_only_fields = ['id', 'slug', 'created_by']

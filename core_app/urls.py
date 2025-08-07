@@ -8,6 +8,10 @@ from .views import (
     UserListAPIView,
     UserDetailAPIView,
 )
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('products/', ProductListAPIView.as_view(), name='product-list'),
@@ -19,4 +23,6 @@ urlpatterns = [
     path('users/', UserListAPIView.as_view(), name='user-list'),
     path('users/<int:pk>/', UserDetailAPIView.as_view(), name='user-detail'),
     path('auth/register/', RegisterView.as_view(), name='user-register'),
+    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

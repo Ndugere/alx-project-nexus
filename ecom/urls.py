@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('core_app.urls')),  # All API endpoints under /api/
+     path('api-auth/', include('rest_framework.urls')),
 ]
 
 # This will serve media files during development

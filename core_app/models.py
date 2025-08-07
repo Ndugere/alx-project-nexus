@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings 
 from django.db import models
+
 
 
 class CustomUser(AbstractUser):
@@ -14,9 +16,15 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="category_images/", blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="categories"
+    )
 
     def __str__(self):
         return self.name
+
 
 
 class Product(models.Model):
@@ -31,6 +39,12 @@ class Product(models.Model):
         null=True,
         related_name="products"
     )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="products"
+    )
 
     def __str__(self):
         return self.name
+
